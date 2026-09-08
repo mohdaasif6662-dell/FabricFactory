@@ -1,0 +1,151 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Fabric Usage | Fabric Factory
+{% endblock %}
+
+
+{% block content %}
+
+<h1>Fabric Usage Records</h1>
+
+<p>
+
+    <a href="{% url 'dashboard' %}">Dashboard</a> |
+
+    <a href="{% url 'fabric_list' %}">Fabric Inventory</a> |
+
+    <a href="{% url 'usage_add' %}">+ Add Usage</a> |
+
+    <a href="{% url 'logout' %}">Logout</a>
+
+</p>
+
+
+<!-- DATE FILTER -->
+<form method="GET">
+
+    <label for="from_date">
+        From Date:
+    </label>
+
+    <input
+        type="date"
+        id="from_date"
+        name="from_date"
+        value="{{ from_date }}"
+    >
+
+
+    <label for="to_date">
+        To Date:
+    </label>
+
+    <input
+        type="date"
+        id="to_date"
+        name="to_date"
+        value="{{ to_date }}"
+    >
+
+
+    <button type="submit">
+        Filter
+    </button>
+
+
+    {% if from_date or to_date %}
+
+        <a href="{% url 'usage_list' %}">
+            Clear Filter
+        </a>
+
+    {% endif %}
+
+</form>
+
+
+{% if usages %}
+
+<table border="1" cellpadding="10">
+
+    <thead>
+
+        <tr>
+
+            <th>ID</th>
+
+            <th>Fabric Color</th>
+
+            <th>Used Rolls</th>
+
+            <th>Usage Date</th>
+
+            <th>Note</th>
+
+            <th>Action</th>
+
+        </tr>
+
+    </thead>
+
+
+    <tbody>
+
+        {% for usage in usages %}
+
+        <tr>
+
+            <td>{{ usage.id }}</td>
+
+            <td>{{ usage.fabric.color }}</td>
+
+            <td>{{ usage.used_rolls }}</td>
+
+            <td>{{ usage.usage_date }}</td>
+
+            <td>{{ usage.note|default:"-" }}</td>
+
+            <td>
+
+                <a href="{% url 'usage_edit' usage.pk %}">
+                    Edit
+                </a>
+
+                |
+
+                <a href="{% url 'usage_delete' usage.pk %}">
+                    Delete
+                </a>
+
+            </td>
+
+        </tr>
+
+        {% endfor %}
+
+    </tbody>
+
+</table>
+
+
+{% else %}
+
+{% if from_date or to_date %}
+
+    <p>
+        No usage records found for the selected date range.
+    </p>
+
+{% else %}
+
+    <p>
+        No fabric usage records available.
+    </p>
+
+{% endif %}
+
+{% endif %}
+
+
+{% endblock %}

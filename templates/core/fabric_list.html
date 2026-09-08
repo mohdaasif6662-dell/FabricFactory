@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Fabric Inventory | Malik Garments
+{% endblock %}
+
+{% block content %}
+
+<h1>Fabric Inventory</h1>
+
+<p>
+    <a href="{% url 'dashboard' %}">Dashboard</a> |
+    <a href="{% url 'fabric_add' %}">+ Add New Fabric</a> |
+    <a href="{% url 'logout' %}">Logout</a>
+</p>
+
+{% if fabrics %}
+
+<table border="1" cellpadding="10">
+
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Color</th>
+            <th>Category</th>
+            <th>Total Rolls</th>
+            <th>Used Rolls</th>
+            <th>Available Rolls</th>
+            <th>Received Date</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        {% for fabric in fabrics %}
+
+        <tr>
+
+            <td>{{ fabric.id }}</td>
+
+            <td>
+                {{ fabric.color }}
+            </td>
+
+            <td>
+                {{ fabric.get_category_display }}
+            </td>
+
+            <td>
+                {{ fabric.total_rolls }}
+            </td>
+
+            <td>
+                {{ fabric.total_used_rolls }}
+            </td>
+
+            <td>
+                {{ fabric.available_rolls }}
+            </td>
+
+            <td>
+                {{ fabric.received_date }}
+            </td>
+
+            <td>
+
+                <a href="{% url 'fabric_edit' fabric.pk %}">
+                    Edit
+                </a>
+
+                |
+
+                <a href="{% url 'fabric_delete' fabric.pk %}">
+                    Delete
+                </a>
+
+            </td>
+
+        </tr>
+
+        {% endfor %}
+
+    </tbody>
+
+</table>
+
+{% else %}
+
+<p>No fabric records available.</p>
+
+{% endif %}
+
+{% endblock %}

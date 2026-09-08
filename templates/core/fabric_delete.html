@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Delete Fabric | Fabric Factory
+{% endblock %}
+
+{% block content %}
+
+<h1>Delete Fabric</h1>
+
+<p>
+    Are you sure you want to delete this fabric record?
+</p>
+
+<p>
+    <strong>Color:</strong> {{ fabric.color }}
+</p>
+
+<p>
+    <strong>Total Rolls:</strong> {{ fabric.total_rolls }}
+</p>
+
+<form method="POST">
+    {% csrf_token %}
+
+    <button type="submit">
+        Yes, Delete
+    </button>
+
+    <a href="{% url 'fabric_list' %}">
+        Cancel
+    </a>
+</form>
+
+{% endblock %}

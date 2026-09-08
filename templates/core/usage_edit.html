@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Edit Fabric Usage | Fabric Factory
+{% endblock %}
+
+{% block content %}
+
+<h1>Edit Fabric Usage</h1>
+
+<p>
+    <a href="{% url 'usage_list' %}">
+        ← Back to Usage Records
+    </a>
+</p>
+
+<form method="POST">
+    {% csrf_token %}
+
+    {{ form.as_p }}
+
+    <button type="submit">
+        Update Usage
+    </button>
+</form>
+
+{% endblock %}

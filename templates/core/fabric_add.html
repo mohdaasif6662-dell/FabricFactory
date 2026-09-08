@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Add Fabric | Fabric Factory
+{% endblock %}
+
+{% block content %}
+
+<h1>Add New Fabric</h1>
+
+<p>
+    <a href="{% url 'fabric_list' %}">
+        ← Back to Inventory
+    </a>
+</p>
+
+<form method="POST">
+    {% csrf_token %}
+
+    {{ form.as_p }}
+
+    <button type="submit">
+        Save Fabric
+    </button>
+</form>
+
+{% endblock %}

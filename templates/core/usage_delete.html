@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Delete Fabric Usage | Fabric Factory
+{% endblock %}
+
+{% block content %}
+
+<h1>Delete Usage Record</h1>
+
+<p>
+    Are you sure you want to delete this usage record?
+</p>
+
+<p>
+    <strong>Fabric Color:</strong>
+    {{ usage.fabric.color }}
+</p>
+
+<p>
+    <strong>Used Rolls:</strong>
+    {{ usage.used_rolls }}
+</p>
+
+<p>
+    <strong>Usage Date:</strong>
+    {{ usage.usage_date }}
+</p>
+
+<form method="POST">
+    {% csrf_token %}
+
+    <button type="submit">
+        Yes, Delete
+    </button>
+
+    <a href="{% url 'usage_list' %}">
+        Cancel
+    </a>
+</form>
+
+{% endblock %}

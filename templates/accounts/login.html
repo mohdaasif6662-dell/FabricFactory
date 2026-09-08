@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Login | Fabric Factory
+{% endblock %}
+
+
+{% block content %}
+
+<div class="auth-page">
+
+    <div class="auth-container">
+
+        <h2>Company Login</h2>
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+
+            <p>
+
+                <label for="username">
+                    Username:
+                </label>
+
+                <input
+                    type="text"
+                    name="username"
+                    id="username"
+                    required
+                >
+
+            </p>
+
+
+            <p>
+
+                <label for="password">
+                    Password:
+                </label>
+
+                <div class="password-wrapper">
+
+                    <input
+                        type="password"
+                        name="password"
+                        id="password"
+                        required
+                    >
+
+                    <button
+                        type="button"
+                        class="toggle-password"
+                        onclick="togglePassword()"
+                    >
+                        Show
+                    </button>
+
+                </div>
+
+            </p>
+
+
+            <button type="submit">
+                Login
+            </button>
+
+        </form>
+
+
+        <p class="auth-link">
+
+            Don't have an account?
+
+            <a href="{% url 'signup' %}">
+                Sign Up
+            </a>
+
+        </p>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    function togglePassword() {
+
+        const passwordInput = document.getElementById(
+            'password'
+        );
+
+        const toggleButton = document.querySelector(
+            '.toggle-password'
+        );
+
+
+        if (passwordInput.type === 'password') {
+
+            passwordInput.type = 'text';
+
+            toggleButton.textContent = 'Hide';
+
+        } else {
+
+            passwordInput.type = 'password';
+
+            toggleButton.textContent = 'Show';
+
+        }
+
+    }
+
+</script>
+
+{% endblock %}

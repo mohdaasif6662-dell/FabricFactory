@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Dashboard | Fabric Factory
+{% endblock %}
+
+{% block content %}
+
+<h1>Fabric Factory Dashboard</h1>
+
+<p>
+    Welcome, {{ request.user.username }}
+</p>
+
+<p>
+    <a href="{% url 'fabric_list' %}">
+        Fabric Inventory
+    </a>
+    |
+    <a href="{% url 'usage_list' %}">
+        Fabric Usage
+    </a>
+    |
+    <a href="{% url 'download_pdf_report' %}" class="report-btn">
+    📄 Download Complete PDF Report
+    </a>
+    |
+    <a href="{% url 'logout' %}">
+        Logout
+    </a>
+</p>
+
+<hr>
+
+<h2>Inventory Summary</h2>
+
+<table border="1" cellpadding="15">
+
+    <tr>
+        <th>Total Colors</th>
+        <th>Total Rolls Received</th>
+        <th>Total Rolls Used</th>
+        <th>Available Rolls</th>
+    </tr>
+
+    <tr>
+        <td>{{ total_colors }}</td>
+        <td>{{ total_received_rolls }}</td>
+        <td>{{ total_used_rolls }}</td>
+        <td>{{ total_available_rolls }}</td>
+    </tr>
+
+</table>
+
+<hr>
+
+<h2>Current Fabric Inventory</h2>
+
+{% if fabrics %}
+
+<table border="1" cellpadding="10">
+
+    <thead>
+        <tr>
+            <th>Color</th>
+            <th>Total Rolls</th>
+            <th>Used Rolls</th>
+            <th>Available Rolls</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        {% for fabric in fabrics %}
+        <tr>
+            <td>{{ fabric.color }}</td>
+            <td>{{ fabric.total_rolls }}</td>
+            <td>{{ fabric.total_used_rolls }}</td>
+            <td>{{ fabric.available_rolls }}</td>
+        </tr>
+        {% endfor %}
+
+    </tbody>
+
+</table>
+
+{% else %}
+
+<p>No fabric inventory available yet.</p>
+
+{% endif %}
+
+{% endblock %}
