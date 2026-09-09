@@ -44,8 +44,12 @@ Fabric Inventory | Malik Garments
             </td>
 
             <td>
-                {{ fabric.get_category_display }}
-            </td>
+    {% for category in fabric.categories.all %}
+        {{ category.name }}{% if not forloop.last %}, {% endif %}
+    {% empty %}
+        —
+    {% endfor %}
+</td>
 
             <td>
                 {{ fabric.total_rolls }}

@@ -2,25 +2,21 @@ from django.db import models
 from django.conf import settings
 
 
-class FabricRoll(models.Model):
+class Category(models.Model):
+    name = models.CharField(max_length=50, unique=True)
 
-    CATEGORY_CHOICES = (
-        ('COTTON', 'Cotton'),
-        ('POLYESTER', 'Polyester'),
-        ('COTTON_BLEND', 'Cotton Blend'),
-        ('DENIM', 'Denim'),
-        ('LINEN', 'Linen'),
-        ('RAYON', 'Rayon'),
-        ('WOOL', 'Wool'),
-        ('OTHER', 'Other'),
-    )
+    def __str__(self):
+        return self.name
+
+
+class FabricRoll(models.Model):
 
     color = models.CharField(max_length=100)
 
-    category = models.CharField(
-        max_length=30,
-        choices=CATEGORY_CHOICES,
-        default='OTHER'
+    categories = models.ManyToManyField(
+        Category,
+        related_name='fabric_rolls',
+        blank=True
     )
 
     total_rolls = models.PositiveIntegerField()

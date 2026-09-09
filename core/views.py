@@ -23,7 +23,6 @@ from reportlab.lib.enums import TA_CENTER
 from datetime import datetime
 from reportlab.pdfbase.pdfmetrics import stringWidth
 
-
 @login_required
 def dashboard(request):
 
@@ -46,7 +45,7 @@ def dashboard(request):
         for fabric in fabrics
     )
 
-    # Har color ka total used aur available calculate karo
+    # Har color ka total used, available aur categories calculate karo
     fabric_data = []
 
     total_used_rolls = 0
@@ -61,17 +60,34 @@ def dashboard(request):
         used_rolls = (
             FabricUsage.objects
             .filter(fabric__color=color)
-            .aggregate(total=Sum('used_rolls'))
-            ['total'] or 0
+            .aggregate(
+                total=Sum('used_rolls')
+            )['total'] or 0
         )
 
         available_rolls = received_rolls - used_rolls
+
+        # Same color ki saari entries se categories collect karo
+        category_names = set()
+
+        color_fabrics = FabricRoll.objects.filter(
+            color=color
+        ).prefetch_related('categories')
+
+        for color_fabric in color_fabrics:
+            for category in color_fabric.categories.all():
+                category_names.add(category.name)
+
+        categories = ", ".join(
+            sorted(category_names)
+        )
 
         total_used_rolls += used_rolls
         total_available_rolls += available_rolls
 
         fabric_data.append({
             'color': color,
+            'categories': categories or '—',
             'total_rolls': received_rolls,
             'total_used_rolls': used_rolls,
             'available_rolls': available_rolls,
@@ -90,6 +106,7 @@ def dashboard(request):
         'core/dashboard.html',
         context
     )
+
 
 @login_required
 def fabric_list(request):
@@ -114,7 +131,6 @@ def fabric_list(request):
         }
     )
 
-
 @login_required
 def fabric_add(request):
 
@@ -129,7 +145,11 @@ def fabric_add(request):
             # Logged-in admin automatically saved
             fabric.created_by = request.user
 
+            # Fabric save
             fabric.save()
+
+            # Multiple categories save
+            form.save_m2m()
 
             messages.success(
                 request,
@@ -148,7 +168,6 @@ def fabric_add(request):
             'form': form
         }
     )
-
 
 @login_required
 def fabric_edit(request, pk):

@@ -9,7 +9,7 @@ class FabricRollAdmin(admin.ModelAdmin):
     list_display = (
         'id',
         'color',
-        'category',
+        'display_categories',
         'total_rolls',
         'total_used_rolls',
         'available_rolls',
@@ -18,19 +18,30 @@ class FabricRollAdmin(admin.ModelAdmin):
     )
 
     list_filter = (
-        'category',
+        'categories',
         'color',
         'received_date',
     )
 
     search_fields = (
         'color',
-        'category',
+        'categories__name',
+    )
+
+    filter_horizontal = (
+        'categories',
     )
 
     ordering = (
         '-received_date',
     )
+
+    @admin.display(description='Categories')
+    def display_categories(self, obj):
+        return ", ".join(
+            category.name
+            for category in obj.categories.all()
+        )
 
 
 @admin.register(FabricUsage)
@@ -51,11 +62,10 @@ class FabricUsageAdmin(admin.ModelAdmin):
 
     search_fields = (
         'fabric__color',
-        'fabric__category',
+        'fabric__categories__name',
         'note',
     )
 
     ordering = (
         '-usage_date',
     )
-    

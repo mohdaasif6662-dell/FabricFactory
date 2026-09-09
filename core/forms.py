@@ -10,11 +10,11 @@ class FabricRollForm(forms.ModelForm):
         model = FabricRoll
 
         fields = [
-    'color',
-    'category',
-    'total_rolls',
-    'received_date',
-]
+            'color',
+            'categories',
+            'total_rolls',
+            'received_date',
+        ]
 
         widgets = {
             'color': forms.TextInput(
@@ -22,7 +22,10 @@ class FabricRollForm(forms.ModelForm):
                     'placeholder': 'Enter fabric color'
                 }
             ),
-            'category': forms.Select(),
+
+            # Multiple categories ke liye checkboxes
+            'categories': forms.CheckboxSelectMultiple(),
+
             'total_rolls': forms.NumberInput(
                 attrs={
                     'placeholder': 'Enter number of rolls',
@@ -43,8 +46,11 @@ class FabricRollForm(forms.ModelForm):
         total_rolls = cleaned_data.get('total_rolls')
 
         # Edit case only
-        if self.instance and self.instance.pk and total_rolls is not None:
-
+        if (
+            self.instance
+            and self.instance.pk
+            and total_rolls is not None
+        ):
             # Existing usage records ka total
             total_used = FabricUsage.objects.filter(
                 fabric_id=self.instance.pk
@@ -104,7 +110,8 @@ class FabricUsageForm(forms.ModelForm):
 
         if fabric and used_rolls is not None:
 
-            # Current record ko exclude karke baaki usage calculate karo
+            # Current record ko exclude karke
+            # baaki usage calculate karo
             total_used = FabricUsage.objects.filter(
                 fabric=fabric
             ).exclude(

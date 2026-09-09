@@ -17,14 +17,17 @@ Dashboard | Fabric Factory
         Fabric Inventory
     </a>
     |
+
     <a href="{% url 'usage_list' %}">
         Fabric Usage
     </a>
     |
+
     <a href="{% url 'download_pdf_report' %}" class="report-btn">
-    📄 Download Complete PDF Report
+        📄 Download Complete PDF Report
     </a>
     |
+
     <a href="{% url 'logout' %}">
         Logout
     </a>
@@ -63,6 +66,7 @@ Dashboard | Fabric Factory
     <thead>
         <tr>
             <th>Color</th>
+            <th>Category</th>
             <th>Total Rolls</th>
             <th>Used Rolls</th>
             <th>Available Rolls</th>
@@ -72,12 +76,29 @@ Dashboard | Fabric Factory
     <tbody>
 
         {% for fabric in fabrics %}
+
         <tr>
-            <td>{{ fabric.color }}</td>
-            <td>{{ fabric.total_rolls }}</td>
-            <td>{{ fabric.total_used_rolls }}</td>
-            <td>{{ fabric.available_rolls }}</td>
+            <td>
+                {{ fabric.color }}
+            </td>
+
+            <td>
+                {{ fabric.categories }}
+            </td>
+
+            <td>
+                {{ fabric.total_rolls }}
+            </td>
+
+            <td>
+                {{ fabric.total_used_rolls }}
+            </td>
+
+            <td>
+                {{ fabric.available_rolls }}
+            </td>
         </tr>
+
         {% endfor %}
 
     </tbody>
