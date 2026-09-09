@@ -25,6 +25,9 @@ ALLOWED_HOSTS = [
     'fabric-factory-git-main-mohdaasif6662-dells-projects.vercel.app',
 ]
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://fabric-factory-git-main-mohdaasif6662-dells-projects.vercel.app',
+]
 
 # ============================================================
 # APPLICATIONS
