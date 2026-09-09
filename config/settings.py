@@ -23,10 +23,12 @@ DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
 
 ALLOWED_HOSTS = [
     'fabric-factory-git-main-mohdaasif6662-dells-projects.vercel.app',
+    'fabric-factory.vercel.app',
 ]
 
 CSRF_TRUSTED_ORIGINS = [
     'https://fabric-factory-git-main-mohdaasif6662-dells-projects.vercel.app',
+    'https://fabric-factory.vercel.app',
 ]
 
 # ============================================================
