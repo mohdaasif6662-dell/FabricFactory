@@ -21,7 +21,9 @@ SECRET_KEY = os.environ.get(
 
 DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = [
+    'fabric-factory-git-main-mohdaasif6662-dells-projects.vercel.app',
+]
 
 
 # ============================================================
