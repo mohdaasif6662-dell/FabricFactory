@@ -1,11 +1,16 @@
 from django.contrib import admin
+from .models import Category, FabricRoll, FabricUsage
 
-from .models import FabricRoll, FabricUsage
+
+@admin.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name')
+    search_fields = ('name',)
+    ordering = ('name',)
 
 
 @admin.register(FabricRoll)
 class FabricRollAdmin(admin.ModelAdmin):
-
     list_display = (
         'id',
         'color',
@@ -28,13 +33,9 @@ class FabricRollAdmin(admin.ModelAdmin):
         'categories__name',
     )
 
-    filter_horizontal = (
-        'categories',
-    )
+    filter_horizontal = ('categories',)
 
-    ordering = (
-        '-received_date',
-    )
+    ordering = ('-received_date',)
 
     @admin.display(description='Categories')
     def display_categories(self, obj):
@@ -46,7 +47,6 @@ class FabricRollAdmin(admin.ModelAdmin):
 
 @admin.register(FabricUsage)
 class FabricUsageAdmin(admin.ModelAdmin):
-
     list_display = (
         'id',
         'fabric',
@@ -56,9 +56,7 @@ class FabricUsageAdmin(admin.ModelAdmin):
         'created_by',
     )
 
-    list_filter = (
-        'usage_date',
-    )
+    list_filter = ('usage_date',)
 
     search_fields = (
         'fabric__color',
@@ -66,6 +64,4 @@ class FabricUsageAdmin(admin.ModelAdmin):
         'note',
     )
 
-    ordering = (
-        '-usage_date',
-    )
+    ordering = ('-usage_date',)
